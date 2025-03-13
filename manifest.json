@@ -1,0 +1,21 @@
+{
+  "name": "Fasnacht Mask Checklist",
+  "short_name": "Fasnacht",
+  "description": "A checklist and rarity tracker for Fallout 76 Fasnacht masks and rare items.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#222222",
+  "theme_color": "#39FF14",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
