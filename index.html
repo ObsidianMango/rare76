@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>👺 Fasnacht Mask Checklist</title>
-<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
+  <title>👺 Fasnacht & Beyond Checklist</title>
+  <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service-worker.js')
@@ -23,23 +23,25 @@
       color: #ddd;
     }
     h1 { 
-    font-family: 'UnifrakturMaguntia', cursive;
-
+      font-family: 'UnifrakturMaguntia', cursive;
       text-align: center; 
       margin-bottom: 20px;
       color: #fff;
     }
-    /* Controls for filtering, sorting and details toggle */
+    /* Controls: all on one line */
     #controls {
       display: flex;
       flex-wrap: wrap;
+      align-items: center;
       justify-content: center;
-      gap: 10px;
+      gap: 20px;
       margin-bottom: 20px;
     }
-    #filterButtons, #sortDetailsContainer {
+    #filterButtons, #typeFilterButtons, #sortDetailsContainer {
       display: flex;
       gap: 5px;
+      flex-wrap: wrap;
+      align-items: center;
     }
     .filter-button, .toggle-button, .sort-button {
       padding: 5px 10px;
@@ -60,7 +62,6 @@
       color: #39FF14;
       text-shadow: 0 0 5px #39FF14, 0 0 10px #39FF14;
     }
-    /* Additional classes for glowing image and title */
     .glowing--image {
       filter: drop-shadow(0 0 20px #39FF14) drop-shadow(0 0 30px #39FF14);
     }
@@ -154,67 +155,45 @@
       cursor: pointer;
       z-index: 101;
     }
+    /* Desktop Modal Layout – original positioning for image */
     .modal-container {
       position: relative;
       width: 90vw;
       height: 90vh;
     }
-    /* Fixed image height so that spacing remains consistent */
-    .modal-image {
+    .modal-image-wrapper {
+      width: 100%;
       height: 70vh;
-      width: auto;
+    }
+    .modal-image {
+      width: 100%;
+      height: 70vh;
+      object-fit: contain;
       display: block;
       margin: 0 auto;
-      object-fit: contain;
     }
-
-
-    /* Overlay Text Styles with Animation – increased font sizes */
-    .overlay {
+    .modal-info-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .modal-info-item {
       position: absolute;
       font-size: 26px;
       text-shadow: 0 0 5px #000;
       background: rgba(0,0,0,0.4);
       padding: 8px 12px;
       border-radius: 5px;
-          font-family: 'UnifrakturMaguntia', cursive;
-
-    }
-    .field-label {
-      font-size: 36px;
-      opacity: 0.8;
-    }
-    .field-value {
-      font-size: 22px;
-      font-weight: bold;
-      margin-left: 4px;
-    }
-    /* Specific Overlay Positions and Colors */
-    .modal-year {
-      top: 20px;
-      left: 20px;
-      color: #00aced; /* Blue */
-    }
-    .modal-rarity {
-      bottom: 70px;
-      left: 20px;
-      /* Color will be set dynamically */
-    }
-    .modal-drop {
-      bottom: 70px;
-      right: 20px;
-      color: #f39c12; /* Orange */
-    }
-    .modal-title {
-      bottom: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-        font-family: 'UnifrakturMaguntia', cursive;
-
-      font-size: 40px;
-      text-align: center;
+      /* Default for Fasnacht masks */
+      font-family: 'UnifrakturMaguntia', cursive;
       color: #fff;
     }
+    .modal-year { top: 20px; left: 20px; color: #00aced; }
+    .modal-rarity { bottom: 70px; left: 20px; }
+    .modal-drop { bottom: 70px; right: 20px; color: #f39c12; }
+    .modal-title { bottom: 10px; left: 50%; transform: translateX(-50%); font-size: 40px; text-align: center; }
     /* Copy Button Styles */
     #copyButton {
       display: block;
@@ -230,40 +209,67 @@
     #copyButton:hover {
       background: #777;
     }
-    /* Mobile Friendly Styles */
+    /* Mobile Modal Layout Override */
+    @media (max-width: 600px) {
+      .modal-container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .modal-image-wrapper {
+        width: 100%;
+        height: 50vh;
+        overflow: hidden;
+      }
+      .modal-image-wrapper img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+      .modal-info-wrapper {
+        position: static;
+        width: 100%;
+        padding: 10px;
+        background: #222;
+        color: #ddd;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .modal-info-item {
+        position: static;
+        margin: 5px 0;
+        font-size: 20px;
+        text-shadow: none;
+        background: none;
+        padding: 0;
+      }
+    }
+    /* Mobile Friendly Styles for Other Elements */
     @media (max-width: 600px) {
       .mask-item {
         width: 100%;
       }
     }
     @media (max-width: 600px) and (orientation: portrait) {
-  .modal-container {
-    width: 100vw;
-    height: auto;
-    padding: 10px;
-    box-sizing: border-box;
-  }
-  .modal-image {
-    width: 100%;
-    height: auto;
-    max-height: 80vh;
-    object-fit: contain;
-    margin: 0 auto;
-    display: block;
-  }
-  .overlay {
-    font-size: 32px;
-  }
-}
-
+      .modal-container {
+        width: 100vw;
+        height: auto;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+    }
   </style>
 </head>
 <body>
-  <h1>👺 Fasnacht Mask Checklist 🦄</h1>
-  <div style="text-align: center; font-family: Arial, sans-serif; color: #555; font-size: 1.0em; margin:0px;">
-  If mobile, <em>use landscape mode for best viewing results.</em>
-</div>
-<br>
+  <h1>👺 Fasnacht & Beyond Checklist 🦄</h1>
+  <div style="text-align: center; font-family: Arial, sans-serif; color: #555; font-size: 1em; margin:0px;">
+    If mobile, <em>use landscape mode for best viewing results.</em>
+  </div>
+  <br>
+  <!-- Controls on one line -->
   <div id="controls">
     <div id="filterButtons">
       <button class="filter-button active" data-filter="all">All</button>
@@ -272,6 +278,16 @@
       <button class="filter-button" data-filter="uncommon">Uncommon</button>
       <button class="filter-button" data-filter="common">Common</button>
     </div>
+    <div id="typeFilterButtons">
+      <!-- Now we differentiate Fasnacht masks from others.
+           Original Fasnacht masks have type "fasnacht".
+           Any non-Fasnacht masks can be set to "headwear" later.
+           Outfits remain in "outfits". -->
+      <button class="filter-button active" data-type="all">All Types</button>
+      <button class="filter-button" data-type="fasnacht">Fasnacht</button>
+      <button class="filter-button" data-type="headwear">Headwear</button>
+      <button class="filter-button" data-type="outfits">Outfits</button>
+    </div>
     <div id="sortDetailsContainer">
       <button id="sortButton" class="sort-button">Sort: Name ▲</button>
       <button id="detailsToggle" class="toggle-button">Hide Details</button>
@@ -279,27 +295,29 @@
   </div>
   
   <div class="mask-list" id="maskList">
-    <!-- Masks will be dynamically inserted here -->
+    <!-- Items will be dynamically inserted here -->
   </div>
   
   <button id="copyButton">Copy Lists</button>
 
-<div style="text-align:center;"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https://obsidianmango.github.io/rare76/index.html&count_bg=%2379C83D&title_bg=%23555555&icon=&title=visitors&edge_flat=false" alt="visitor count" /></div>
-
-  <!-- Full-screen Modal (hidden on load) -->
+  <!-- Fullscreen Modal -->
   <div id="modal" class="modal" style="display:none;">
     <span id="modalClose" class="modal-close">&times;</span>
     <div class="modal-container">
-      <img id="modalImg" class="modal-image" src="" alt="">
-      <div id="modalYear" class="overlay modal-year"></div>
-      <div id="modalRarity" class="overlay modal-rarity"></div>
-      <div id="modalDropRate" class="overlay modal-drop"></div>
-      <div id="modalTitle" class="overlay modal-title"></div>
+      <div class="modal-image-wrapper">
+        <img id="modalImg" class="modal-image" src="" alt="">
+      </div>
+      <div class="modal-info-wrapper">
+        <div id="modalYear" class="modal-info-item modal-year"></div>
+        <div id="modalRarity" class="modal-info-item modal-rarity"></div>
+        <div id="modalDropRate" class="modal-info-item modal-drop"></div>
+        <div id="modalTitle" class="modal-info-item modal-title"></div>
+      </div>
     </div>
   </div>
 
   <script>
-    // Animate text by scrambling then gradually revealing final text
+    // Animate text with a scrambling effect
     function animateText(element, finalText, duration = 800) {
       const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
       let iterations = 0;
@@ -317,364 +335,749 @@
       }, duration / total);
     }
     
-    // Helper function to remove unwanted text from titles
+    // Helper to clean up titles
     function formatMaskTitle(title) {
       return title.replace(/Fallout\s*76/ig, '').replace(/in\s*Fo76/ig, '').trim();
     }
     
-    // Sort modes: nameAsc, nameDesc, rarityAsc, rarityDesc, yearAsc, yearDesc
+    // Sorting modes and state variables
     const sortModes = ["nameAsc", "nameDesc", "rarityAsc", "rarityDesc", "yearAsc", "yearDesc"];
     let sortModeIndex = 0;
     let currentSort = sortModes[sortModeIndex];
     let showDetails = true;
     
-    // Custom order for rarity
-    const rarityOrder = {
-      "glowing": 1,
-      "rare": 2,
-      "uncommon": 3,
-      "common": 4
-    };
+    const rarityOrder = { "glowing": 1, "rare": 2, "uncommon": 3, "common": 4 };
     
+    // Full mask list:
+    // Original Fasnacht masks now have type "fasnacht"
+    // New non-Fasnacht items (if any other masks are added later) can be "headwear"
+    // Outfits remain in "outfits"
     const maskData = [
       {
-        "name": "Alien Mask ",
+        "name": "Alien Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-alien-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
         "name": "Beret",
         "url": "https://images.fallout.wiki/thumb/4/47/FO76_fasnacht_beret.png/155px-FO76_fasnacht_beret.png",
         "year": 2019,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
         "name": "Big Foot Mask",
         "url": "https://raw.githubusercontent.com/ObsidianMango/ObsidianMango/main/img/big.png",
         "year": 2025,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
-        "name": "Blue Devil Mask ",
+        "name": "Blue Devil Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-blue-devil-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
         "name": "Brahmin Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-brahmin-mask.webp",
         "year": 2021,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Buffoon Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-buffoon-mask.webp",
         "year": 2021,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Crazy Guy Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-crazy-guy-mask.webp",
         "year": 2020,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Deathclaw Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-deathclaw-mask.webp",
         "year": 2020,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Demon Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-demon-mask.webp",
         "year": 2020,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Fiend Mask",
         "url": "https://images.fallout.wiki/thumb/e/ea/FO76_headwear_fasnacht_fiend.png/600px-FO76_headwear_fasnacht_fiend.png",
         "year": 2022,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Giant Mask ",
+        "name": "Giant Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-giant-mask.webp",
         "year": 2019,
         "rarity": "common",
-        "dropRate": 20.0
+        "dropRate": 20.0,
+        "type": "fasnacht"
       },
       {
-        "name": "Goblin Mask ",
+        "name": "Goblin Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-goblin-mask.webp",
         "year": 2019,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
         "name": "Glowing Abe Mask",
         "url": "https://raw.githubusercontent.com/ObsidianMango/ObsidianMango/main/img/abeglow.png",
         "year": 2025,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Glowing Alien Mask ",
+        "name": "Glowing Alien Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-alien-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Glowing Big Foot Mask",
         "url": "https://raw.githubusercontent.com/ObsidianMango/ObsidianMango/main/img/bigglow.png",
         "year": 2025,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Glowing Blue Devil Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-blue-devil-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Glowing Honey Bee Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-honey-bee-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Glowing Jackalope Mask",
         "url": "https://raw.githubusercontent.com/ObsidianMango/ObsidianMango/main/img/jackglow.png",
         "year": 2025,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Glowing Minotaur Mask ",
+        "name": "Glowing Minotaur Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-minotaur-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Glowing Pig Mask ",
+        "name": "Glowing Pig Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-pig-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Glowing Robot Mask ",
+        "name": "Glowing Robot Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-robot-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Glowing Scorchbeast Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-scorchbeast-mask-.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Glowing Scorchbeast Queen Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-scorchbeast-queen-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Glowing Turkey Mask ",
+        "name": "Glowing Turkey Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-turkey-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Glowing Unicorn Mask ",
+        "name": "Glowing Unicorn Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-glowing-unicorn-mask.webp",
         "year": 2024,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Glowing Veggie Man Mask",
         "url": "https://raw.githubusercontent.com/ObsidianMango/ObsidianMango/main/img/vegglow.png",
         "year": 2025,
         "rarity": "glowing",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Hag Mask",
         "url": "https://images.fallout.wiki/b/b0/FO76_headwear_fasnacht_hag.png",
         "year": 2022,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Honey Bee Mask ",
+        "name": "Honey Bee Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-honey-bee-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
         "name": "Jackalope Mask",
         "url": "https://raw.githubusercontent.com/ObsidianMango/ObsidianMango/main/img/jack.png",
         "year": 2025,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
-        "name": "Jester Mask ",
+        "name": "Jester Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-jester-mask.webp",
         "year": 2019,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
         "name": "Loon Mask",
         "url": "https://raw.githubusercontent.com/ObsidianMango/ObsidianMango/main/img/loon.png",
         "year": 2024,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Man Mask",
         "url": "https://images.fallout.wiki/b/be/Faschnacht_Man_Mask.png",
         "year": 2019,
         "rarity": "common",
-        "dropRate": 20.0
+        "dropRate": 20.0,
+        "type": "fasnacht"
       },
       {
-        "name": "Minotaur Mask ",
+        "name": "Minotaur Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-minotaur-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
-        "name": "Owl Mask ",
+        "name": "Owl Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-owl-mask.webp",
         "year": 2019,
         "rarity": "common",
-        "dropRate": 20.0
+        "dropRate": 20.0,
+        "type": "fasnacht"
       },
       {
-        "name": "Pig Mask ",
+        "name": "Pig Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-pig-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
         "name": "Raven Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-raven-mask.webp",
         "year": 2020,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Robot Mask ",
+        "name": "Robot Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-robot-mask.webp",
         "year": 2024,
         "rarity": "common",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
-        "name": "Scorchbeast Mask ",
+        "name": "Scorchbeast Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-scorchbeast-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Scorchbeast Queen Mask ",
+        "name": "Scorchbeast Queen Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-scorchbeast-queen-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
-        "name": "Skull Mask ",
+        "name": "Skull Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-skull-mask.webp",
         "year": 2019,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
-        "name": "Soldier Mask ",
+        "name": "Soldier Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-soldier-mask.webp",
         "year": 2019,
         "rarity": "common",
-        "dropRate": 20.0
+        "dropRate": 20.0,
+        "type": "fasnacht"
       },
       {
-        "name": "Sun Mask ",
+        "name": "Sun Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-sun-mask.webp",
         "year": 2019,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
-        "name": "Toothy Man Mask ",
+        "name": "Toothy Man Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-toothy-man-mask.webp",
         "year": 2019,
         "rarity": "common",
-        "dropRate": 20.0
+        "dropRate": 20.0,
+        "type": "fasnacht"
       },
       {
-        "name": "Turkey Mask ",
+        "name": "Turkey Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-turkey-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
-        "name": "Unicorn Mask ",
+        "name": "Unicorn Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-unicorn-mask.webp",
         "year": 2024,
         "rarity": "uncommon",
-        "dropRate": 4.4
+        "dropRate": 4.4,
+        "type": "fasnacht"
       },
       {
         "name": "Winter Man Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-winter-man-mask.webp",
         "year": 2021,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
         "name": "Winter Man T-45 Helmet",
         "url": "https://images.fallout.wiki/thumb/c/c8/FO76WL_Father_Winter_helmet.png/155px-FO76WL_Father_Winter_helmet.png",
         "year": 2021,
         "rarity": "rare",
-        "dropRate": 0.2
+        "dropRate": 0.2,
+        "type": "fasnacht"
       },
       {
-        "name": "Witch Mask ",
+        "name": "Witch Mask",
         "url": "https://www.falloutbuilds.com/wp-content/uploads/sites/41/fallout-76-fasnacht-witch-mask.webp",
         "year": 2019,
         "rarity": "common",
-        "dropRate": 20.0
-      }
+        "dropRate": 20.0,
+        "type": "fasnacht"
+      },
+      // New non-Fasnacht items: grouped as outfits
+
+  {
+    "name": "Blood Eagle Jacket Jeans",
+    "url": "img/bloodeaglejacketjeans.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Secret Operative Underarmor",
+    "url": "img/secretoperativeunderarmor.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Brotherhood Special Ops Gas Mask",
+    "url": "img/brotherhoodspecialopsgasmask.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Clean Spacesuit",
+    "url": "img/cleanspacesuit.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Clean Spacesuit Helmet",
+    "url": "img/cleanspacesuithelmet.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Fishermans Overalls",
+    "url": "img/fishermansoveralls.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Deathclaw Hunter Hat",
+    "url": "img/deathclawhunterhat.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Deathclaw Hunter",
+    "url": "img/deathclawhunter.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Diving Suit",
+    "url": "img/divingsuit.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Grafton Monster",
+    "url": "img/graftonmonster.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Forest Camo Jumpsuit",
+    "url": "img/forestcamojumpsuit.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Winter Jacket",
+    "url": "img/winterjacket.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Straightjacket Clean",
+    "url": "img/straightjacketclean.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Chally Moomoo",
+    "url": "img/challymoomoo.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Chally Moomoo Helmet",
+    "url": "img/challymoomoohelmet.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Garrahan Forman Helmet",
+    "url": "img/GarrahanFormanHelmet.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Garrahan Foreman",
+    "url": "img/garrahanforeman.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Reclaimed Deep Mining Mask",
+    "url": "img/reclaimeddeepminingmask.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Responder Fireman",
+    "url": "img/responderfireman.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Responder Fireman Helmet",
+    "url": "img/responderfiremanhelmet.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Leather Coat",
+    "url": "img/leathercoat.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "BOS Jumpsuit",
+    "url": "img/BOSjumpsuit.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "White Powder Jumpsuit",
+    "url": "img/whitepowderjumpsuit.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Asylum Worker Pink",
+    "url": "img/asylumworkerpink.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Asylum Worker Green",
+    "url": "img/asylumworkergreen.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Asylum Worker Brown",
+    "url": "img/asylumworkerbrown.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Asylum Worker Blue",
+    "url": "img/asylumworkerblue.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Asylum Worker Forest",
+    "url": "img/asylumworkerforest.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Asylum Worker Red",
+    "url": "img/asylumworkerred.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Asylum Worker Yellow",
+    "url": "img/asylumworkeryellow.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Skull Lord Blood Eagle Helmet",
+    "url": "img/SkullLordBloodEaglehelmet.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Skull Lord Blood Eagle",
+    "url": "img/SkullLordBloodEagle.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Blue Ridge Caravan Gas Mask",
+    "url": "img/blueridgecaravangasmask.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Blue Ridge Caravan",
+    "url": "img/blueridgecaravan.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Traveling Leather",
+    "url": "img/travelingleather.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Grey Fishermans Overalls",
+    "url": "img/greyfishermansoveralls.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Tattered Field Jacket",
+    "url": "img/tatteredfieldjacket.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Blue Ridge Scout",
+    "url": "img/blueridgescout.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "Longshoreman",
+    "url": "img/longshoreman.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "USA Mask",
+    "url": "img/USAmask.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  },
+  {
+    "name": "Brotherhood Special Ops",
+    "url": "img/brotherhoodspecialops.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "outfits"
+  },
+  {
+    "name": "FSA Mask",
+    "url": "img/FSAmask.png",
+    "year": 2025,
+    "rarity": "uncommon",
+    "dropRate": 0,
+    "type": "headwear"
+  }
     ];
     
+    // Load saved checklist state
     let savedData = JSON.parse(localStorage.getItem("fasnachtMasks") || "[]");
     if (savedData.length) {
       maskData.forEach((mask, i) => {
@@ -686,12 +1089,17 @@
       localStorage.setItem("fasnachtMasks", JSON.stringify(maskData));
     }
     
+    let activeRarityFilter = "all";
+    let activeTypeFilter = "all";
+    
     function renderMaskList() {
       const maskList = document.getElementById("maskList");
       maskList.innerHTML = "";
-      let filteredData = maskData.filter(mask => activeFilter === "all" || mask.rarity === activeFilter);
+      let filteredData = maskData.filter(item =>
+        (activeRarityFilter === "all" || item.rarity.toLowerCase() === activeRarityFilter) &&
+        (activeTypeFilter === "all" || item.type.toLowerCase() === activeTypeFilter)
+      );
       
-      // Sorting based on currentSort value
       if(currentSort === "nameAsc") {
         filteredData.sort((a, b) => formatMaskTitle(a.name).localeCompare(formatMaskTitle(b.name)));
       } else if(currentSort === "nameDesc") {
@@ -724,17 +1132,17 @@
         openModal(mask);
       });
     
-      // Only add label and details if showDetails is true
       if(showDetails) {
         const label = document.createElement("label");
         label.textContent = formatMaskTitle(mask.name);
-        if(mask.rarity.toLowerCase() === "glowing") {
+        // Apply glowing only for Fasnacht masks that are glowing
+        if(mask.type === "fasnacht" && mask.rarity.toLowerCase() === "glowing") {
           label.classList.add("glowing");
         }
     
         const details = document.createElement("div");
         details.style.fontSize = "12px";
-        details.innerHTML = "Year: " + mask.year + "<br>Drop: " + mask.dropRate + "%";
+        details.innerHTML = "Year: " + mask.year + "<br>" + (mask.type === "fasnacht" ? "Drop: " + mask.dropRate + "%" : "");
     
         container.appendChild(label);
         container.appendChild(details);
@@ -770,14 +1178,17 @@
       modalImg.src = mask.url;
       modalImg.alt = mask.name;
       
-      // Animate text overlays with scrambled effect;
-      // make drop rate animation last longer (1200ms)
       animateText(document.getElementById("modalYear"), "  " + mask.year, 800);
-      animateText(document.getElementById("modalDropRate"), "Drop Rate: " + mask.dropRate + "%", 1200);
-      animateText(document.getElementById("modalRarity"), mask.rarity, 800);
+      // Only show drop rate for Fasnacht masks
+      if(mask.type === "fasnacht"){
+        animateText(document.getElementById("modalDropRate"), "Drop Rate: " + mask.dropRate + "%", 1200);
+      } else {
+        document.getElementById("modalDropRate").textContent = "";
+      }
+      // Make rarity uppercase
+      animateText(document.getElementById("modalRarity"), mask.rarity.toUpperCase(), 800);
       animateText(document.getElementById("modalTitle"), formatMaskTitle(mask.name), 800);
       
-      // Dynamically set rarity overlay color and add glowing effects for glowing masks
       const modalRarity = document.getElementById("modalRarity");
       let rarity = mask.rarity.toLowerCase();
       let rarityColor = "#fff";
@@ -791,20 +1202,33 @@
          rarityColor = "#ffffff";
       }
       modalRarity.style.color = rarityColor;
-    
+      
+      // Set modal font based on type:
+      if(mask.type === "fasnacht") {
+        document.getElementById("modalYear").style.fontFamily = "'UnifrakturMaguntia', cursive";
+        document.getElementById("modalRarity").style.fontFamily = "'UnifrakturMaguntia', cursive";
+        document.getElementById("modalDropRate").style.fontFamily = "'UnifrakturMaguntia', cursive";
+        document.getElementById("modalTitle").style.fontFamily = "'UnifrakturMaguntia', cursive";
+      } else {
+        document.getElementById("modalYear").style.fontFamily = "Arial, sans-serif";
+        document.getElementById("modalRarity").style.fontFamily = "Arial, sans-serif";
+        document.getElementById("modalDropRate").style.fontFamily = "Arial, sans-serif";
+        document.getElementById("modalTitle").style.fontFamily = "Arial, sans-serif";
+      }
+      
       if(rarity === "glowing") {
         document.getElementById("modalYear").classList.add("glowing");
         document.getElementById("modalDropRate").classList.add("glowing");
         document.getElementById("modalRarity").classList.add("glowing");
         document.getElementById("modalTitle").classList.add("glowing");
-        modalImg.classList.add("glowing-image");
+        modalImg.classList.add("glowing--image");
         document.getElementById("modalTitle").classList.add("glowing-title");
       } else {
         document.getElementById("modalYear").classList.remove("glowing");
         document.getElementById("modalDropRate").classList.remove("glowing");
         document.getElementById("modalRarity").classList.remove("glowing");
         document.getElementById("modalTitle").classList.remove("glowing");
-        modalImg.classList.remove("glowing-image");
+        modalImg.classList.remove("glowing--image");
         document.getElementById("modalTitle").classList.remove("glowing-title");
       }
     }
@@ -818,19 +1242,27 @@
       if (e.target === e.currentTarget) closeModal();
     });
     
-    let activeFilter = "all";
-    
-    document.querySelectorAll(".filter-button").forEach(button => {
+    // Rarity filter buttons
+    document.querySelectorAll("#filterButtons .filter-button").forEach(button => {
       button.addEventListener("click", () => {
-        activeFilter = button.getAttribute("data-filter");
-        document.querySelectorAll(".filter-button").forEach(btn => btn.classList.remove("active"));
+        activeRarityFilter = button.getAttribute("data-filter");
+        document.querySelectorAll("#filterButtons .filter-button").forEach(btn => btn.classList.remove("active"));
         button.classList.add("active");
         renderMaskList();
       });
     });
     
-    // Sort button cycles through:
-    // Name ▲, Name ▼, Rarity ▲, Rarity ▼, Year ▲, Year ▼
+    // Type filter buttons
+    document.querySelectorAll("#typeFilterButtons .filter-button").forEach(button => {
+      button.addEventListener("click", () => {
+        activeTypeFilter = button.getAttribute("data-type");
+        document.querySelectorAll("#typeFilterButtons .filter-button").forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        renderMaskList();
+      });
+    });
+    
+    // Sort button
     document.getElementById("sortButton").addEventListener("click", () => {
       sortModeIndex = (sortModeIndex + 1) % sortModes.length;
       currentSort = sortModes[sortModeIndex];
@@ -845,31 +1277,31 @@
       renderMaskList();
     });
     
-    // Details toggle button to show/hide name and details on mask tiles
+    // Details toggle button
     document.getElementById("detailsToggle").addEventListener("click", () => {
       showDetails = !showDetails;
       document.getElementById("detailsToggle").textContent = showDetails ? "Hide Details" : "Show Details";
       renderMaskList();
     });
     
+    // Copy checklist button
     document.getElementById("copyButton").addEventListener("click", () => {
-      const ownedMasks = [];
-      const unownedMasks = [];
+      const ownedItems = [];
+      const unownedItems = [];
       maskData.forEach(mask => {
         const formattedName = formatMaskTitle(mask.name);
-        if (mask.obtained) ownedMasks.push(formattedName);
-        else unownedMasks.push(formattedName);
+        if (mask.obtained) ownedItems.push(formattedName);
+        else unownedItems.push(formattedName);
       });
       const textToCopy =
-        "Owned Masks:\n" + (ownedMasks.length ? ownedMasks.join("\n") : "None") +
-        "\n\nUnowned Masks:\n" + (unownedMasks.length ? unownedMasks.join("\n") : "None");
+        "Owned Items:\n" + (ownedItems.length ? ownedItems.join("\n") : "None") +
+        "\n\nUnowned Items:\n" + (unownedItems.length ? unownedItems.join("\n") : "None");
       navigator.clipboard.writeText(textToCopy)
         .then(() => alert("Copied to clipboard!"))
         .catch(() => alert("Failed to copy."));
     });
     
     renderMaskList();
-
   </script>
 
 </body>
